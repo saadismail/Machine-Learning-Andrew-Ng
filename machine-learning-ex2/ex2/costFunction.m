@@ -20,28 +20,11 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
-hyp = X * theta;
+hyp = sigmoid(X * theta);
 
-for i=1:m
-    J = J + ( ((-y(i)) * log(sigmoid(hyp(i)))) - ((1 - y(i)) * log(1-sigmoid(hyp(i)))) );
-end
+J = sum( ( (-y) .* log(hyp) ) .- ( (1 - y) .* log(1 - hyp) ) ) / m;
 
-%(-y) .* log(sigmoid(X * theta))
-%J = () ./ m;
-
-J = J / m;
-
-%grad = ((sigmoid(X * theta) .- y) .* x);
-
-sig = sigmoid(X * theta);
-for j=1:length(theta)
-    grad(j) = 0;
-    for i=1:m
-        grad(j) = grad(j) + ( (sig(i) - y(i)) * X(i,j));
-    end
-
-    grad(j) = grad(j) / m;
-end
+grad = (sum(( hyp .- y ) .* X) / m)';
 
 % =============================================================
 
